@@ -2,17 +2,18 @@
 #define BATEAU_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 
 #define TAX_BASE_VOILIER 50
 #define TAX_BASE_MOTEUR 100
 #define TAX_SPEC_VOILIER 25
-#define TAX_SPEC_VOILIER_LIMIT 200
+#define TAX_SPEC_VOILIER_LIMITSURFACE 200
 #define TAX_SPEC_PECHE 100
-#define TAX_SPEC_PECHE_LIMIT 20
+#define TAX_SPEC_PECHE_LIMITTONNES 20
 #define TAX_SPEC_PLAISANCE 50
-#define TAX_SPEC_PLAISANCE_LIMIT 100
-#define TAX_SPEC_PLAISANCE_MULTIPLY 15
+#define TAX_SPEC_PLAISANCE_LIMITPUISSANCE 100
+#define TAX_SPEC_PLAISANCE_MULTIPLYLONGEUR 15
 
 typedef enum {
    VOILIER, PECHE, PLAISANCE
@@ -53,7 +54,12 @@ typedef struct Bateau {
 
 unsigned verifierTaxe(Bateau* bateau);
 void afficherBateau(Bateau* bateau);
-void afficherBateaux(Bateau port[]);
-void afficherStatistiques(Bateau port[]);
+void afficherBateaux(Bateau* port[]);
+void afficherStatistiques(Bateau* port[]);
+
+Bateau* creerVoilier(char* nomBateau, uint16_t surfaceVoilureM2);
+Bateau* creerPeche(char* nomBateau, uint16_t puissanceMoteurCV, uint8_t maxTonnesDePoisson);
+Bateau* creerPlaisance(char* nomBateau, uint16_t puissanceMoteurCV, uint8_t longeurBateauM2, char* nomProprietaire);
+
 
 #endif
