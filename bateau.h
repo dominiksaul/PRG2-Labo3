@@ -19,7 +19,7 @@ typedef enum {
    VOILIER, PECHE, PLAISANCE
 } BateauType;
 
-typedef struct Peche {
+/*typedef struct Peche {
    uint8_t maxTonnesDePoisson;
 } Peche;
 
@@ -51,6 +51,28 @@ typedef struct Bateau {
    char* nomBateau;
    BateauType type;
    Categorie categorie;
+} Bateau;*/
+
+typedef struct Bateau {
+   char* nomBateau;
+   BateauType type;
+   union {
+      struct {
+         uint16_t surfaceVoilureM2;
+      };
+      struct {
+         uint16_t puissanceMoteurCV;
+         union {
+            struct {
+               uint8_t maxTonnesDePoisson;
+            };
+            struct {
+               uint8_t longeurBateauM2;
+               char* nomProprietaire;
+            };
+         };
+      };
+   };
 } Bateau;
 
 // Fonction pour vérifier la taxe d'un bateau

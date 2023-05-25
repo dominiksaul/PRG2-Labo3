@@ -7,22 +7,22 @@ unsigned verifierTaxe(Bateau *bateau) {
    switch (bateau->type) {
       case VOILIER:
          taxe = TAXE_BASE_VOILIER;
-         if (TAXE_SPEC_VOILIER_LIMITSURFACE < bateau->categorie.voilier.surfaceVoilureM2) {
+         if (TAXE_SPEC_VOILIER_LIMITSURFACE < bateau->surfaceVoilureM2) {
             taxe += TAXE_SPEC_VOILIER;
          }
          break;
       case PECHE:
          taxe = TAXE_BASE_MOTEUR;
-         if (TAXE_SPEC_PECHE_LIMITTONNES < bateau->categorie.moteur.sousCategorie.peche.maxTonnesDePoisson) {
+         if (TAXE_SPEC_PECHE_LIMITTONNES < bateau->maxTonnesDePoisson) {
             taxe += TAXE_SPEC_PECHE;
          }
          break;
       case PLAISANCE:
          taxe = TAXE_BASE_MOTEUR;
-         if (TAXE_SPEC_PLAISANCE_LIMITPUISSANCE > bateau->categorie.moteur.puissanceMoteurCV) {
+         if (TAXE_SPEC_PLAISANCE_LIMITPUISSANCE > bateau->puissanceMoteurCV) {
             taxe += TAXE_SPEC_PLAISANCE;
          } else {
-            taxe += TAXE_SPEC_PLAISANCE_PARLONGEUR * bateau->categorie.moteur.sousCategorie.plaisance.longeurBateauM2;
+            taxe += TAXE_SPEC_PLAISANCE_PARLONGEUR * bateau->longeurBateauM2;
          }
          break;
    }
@@ -46,19 +46,19 @@ void afficherBateau(Bateau *bateau) {
    printf("%*d ", SIZE, verifierTaxe(bateau));
    switch (bateau->type) {
       case VOILIER:
-         printf("%*d m2 ", SIZE - 3, bateau->categorie.voilier.surfaceVoilureM2);
+         printf("%*d m2 ", SIZE - 3, bateau->surfaceVoilureM2);
          break;
       case PECHE:
          printf("%*s ", SIZE, "");
-         printf("%*d CV ", SIZE - 3, bateau->categorie.moteur.puissanceMoteurCV);
-         printf("%*d T ", SIZE - 2, bateau->categorie.moteur.sousCategorie.peche.maxTonnesDePoisson);
+         printf("%*d CV ", SIZE - 3, bateau->puissanceMoteurCV);
+         printf("%*d T ", SIZE - 2, bateau->maxTonnesDePoisson);
          break;
       case PLAISANCE:
          printf("%*s ", SIZE, "");
-         printf("%*d CV ", SIZE - 3, bateau->categorie.moteur.puissanceMoteurCV);
+         printf("%*d CV ", SIZE - 3, bateau->puissanceMoteurCV);
          printf("%*s ", SIZE, "");
-         printf("%*d m ", SIZE - 3, bateau->categorie.moteur.sousCategorie.plaisance.longeurBateauM2);
-         printf("%*s ", SIZE, bateau->categorie.moteur.sousCategorie.plaisance.nomProprietaire);
+         printf("%*d m ", SIZE - 3, bateau->longeurBateauM2);
+         printf("%*s ", SIZE, bateau->nomProprietaire);
          break;
    }
    printf("\n");
@@ -88,22 +88,22 @@ Bateau *creerVoilier(char *nomBateau, uint16_t surfaceVoilureM2) {
    Bateau *temp = (Bateau *) calloc(1, sizeof(Bateau));
    temp->nomBateau = nomBateau;
    temp->type = VOILIER;
-   temp->categorie.voilier.surfaceVoilureM2 = surfaceVoilureM2;
+   temp->surfaceVoilureM2 = surfaceVoilureM2;
 }
 
 Bateau *creerPeche(char *nomBateau, uint16_t puissanceMoteurCV, uint8_t maxTonnesDePoisson) {
    Bateau *temp = (Bateau *) calloc(1, sizeof(Bateau));
    temp->nomBateau = nomBateau;
    temp->type = PECHE;
-   temp->categorie.moteur.puissanceMoteurCV = puissanceMoteurCV;
-   temp->categorie.moteur.sousCategorie.peche.maxTonnesDePoisson = maxTonnesDePoisson;
+   temp->puissanceMoteurCV = puissanceMoteurCV;
+   temp->maxTonnesDePoisson = maxTonnesDePoisson;
 }
 
 Bateau *creerPlaisance(char *nomBateau, uint16_t puissanceMoteurCV, uint8_t longeurBateauM2, char *nomProprietaire) {
    Bateau *temp = (Bateau *) calloc(1, sizeof(Bateau));
    temp->nomBateau = nomBateau;
    temp->type = PLAISANCE;
-   temp->categorie.moteur.puissanceMoteurCV = puissanceMoteurCV;
-   temp->categorie.moteur.sousCategorie.plaisance.longeurBateauM2 = longeurBateauM2;
-   temp->categorie.moteur.sousCategorie.plaisance.nomProprietaire = nomProprietaire;
+   temp->puissanceMoteurCV = puissanceMoteurCV;
+   temp->longeurBateauM2 = longeurBateauM2;
+   temp->nomProprietaire = nomProprietaire;
 }
