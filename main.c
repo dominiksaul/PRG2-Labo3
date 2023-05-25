@@ -9,16 +9,11 @@ int main() {
       creerPlaisance("Homer", 50, 30, "Marge"),
       creerPlaisance("Apu", 120, 50, "Femme Apu")
    };
+   size_t taille = sizeof(port) / sizeof(Bateau*);
 
-   // tester la fonction afficher Bateau
-   afficherBateau(port[0]);
+   afficherBateaux(port, taille);
 
-   // tester la fonction afficher Bateaux
-   afficherBateaux(port);
+   //afficherStatistiques(port, taille);
 
-   // tester la fonction afficher Statistiques
-   afficherStatistiques(port);
-
-   // printf("Hello, World!\n");
    return 0;
 }
