@@ -19,41 +19,7 @@ typedef enum {
    VOILIER, PECHE, PLAISANCE
 } BateauType;
 
-/*typedef struct Peche {
-   uint8_t maxTonnesDePoisson;
-} Peche;
-
-typedef struct Plaisance {
-   uint8_t longeurBateauM2;
-   char* nomProprietaire;
-} Plaisance;
-
-typedef union SousCategorie {
-   Peche peche;
-   Plaisance plaisance;
-} SousCategorie;
-
-typedef struct Voilier {
-   uint16_t surfaceVoilureM2;
-} Voilier;
-
-typedef struct Moteur {
-   uint16_t puissanceMoteurCV;
-   SousCategorie sousCategorie;
-} Moteur;
-
-typedef union Categorie {
-   Voilier voilier;
-   Moteur moteur;
-} Categorie;
-
-typedef struct Bateau {
-   char* nomBateau;
-   BateauType type;
-   Categorie categorie;
-} Bateau;*/
-
-typedef struct Bateau {
+typedef struct {
    char* nomBateau;
    BateauType type;
    union {
