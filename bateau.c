@@ -1,6 +1,6 @@
 #include "bateau.h"
 
-int verifierTaxe(Bateau* bateau) {
+unsigned verifierTaxe(Bateau* bateau) {
 
 }
 
@@ -8,10 +8,10 @@ void afficherBateau(Bateau* bateau) {
 
 }
 
-void afficherBateaux(Bateau* port[]) {
+void afficherBateaux(Bateau port[]) {
 
 }
 
-void afficherStatistiques(Bateau* port[]) {
+void afficherStatistiques(Bateau port[]) {
 
 }
