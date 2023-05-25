@@ -24,6 +24,7 @@ typedef struct Peche {
 
 typedef struct Plaisance {
    uint8_t longeurBateauM2;
+   char* nomProprietaire;
 } Plaisance;
 
 typedef union SousCategorie {
@@ -46,14 +47,13 @@ typedef union Categorie {
 } Categorie;
 
 typedef struct Bateau {
-   char nom[50];
+   char* nomBateau;
    Categorie categorie;
 } Bateau;
 
-Bateau* nouveauBateau()
-
-int getTaxe(Bateau* bateau);
-int getTaxeBase(Bateau* bateau);
-int getTaxeSpecifique(Bateau* bateau);
+int verifierTaxe(Bateau* bateau);
+void afficherBateau(Bateau* bateau);
+void afficherBateaux(Bateau* port[]);
+void afficherStatistiques(Bateau* port[]);
 
 #endif
