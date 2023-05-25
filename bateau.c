@@ -1,13 +1,17 @@
 #include "bateau.h"
 
-int getTaxe(Bateau* bateau) {
-   return getTaxeBase(bateau) + getTaxeSpecifique(bateau);
-}
-
-int getTaxeBase(Bateau* bateau) {
+int verifierTaxe(Bateau* bateau) {
 
 }
 
-int getTaxeSpecifique(Bateau* bateau) {
+void afficherBateau(Bateau* bateau) {
+
+}
+
+void afficherBateaux(Bateau* port[]) {
+
+}
+
+void afficherStatistiques(Bateau* port[]) {
 
 }
