@@ -1,5 +1,4 @@
 #include "bateau.h"
-
 #define SIZE 13
 
 unsigned verifierTaxe(Bateau *bateau) {
@@ -43,7 +42,7 @@ char *verifierBateauTypeName(Bateau *bateau) {
 void afficherBateau(Bateau *bateau) {
    printf("%-*s ", SIZE, bateau->nomBateau);
    printf("%*s ", SIZE, verifierBateauTypeName(bateau));
-   printf("%*d ", SIZE, verifierTaxe(bateau));
+   printf("%*d Euro ", SIZE-5, bateau->taxe);
    switch (bateau->type) {
       case VOILIER:
          printf("%*d m2 ", SIZE - 3, bateau->surfaceVoilureM2);
@@ -64,7 +63,20 @@ void afficherBateau(Bateau *bateau) {
    printf("\n");
 }
 
+void trierBateaux(Bateau* port[], size_t taille) {
+   for (size_t i = 1; i < taille; ++i) {
+      Bateau* key = port[i];
+      size_t j = i - 1;
+      while (j >= 0 && key->taxe > port[j]->taxe) {
+         port[j + 1] = port[j];
+         --j;
+      }
+      port[j + 1] = key;
+   }
+}
+
 void afficherBateaux(Bateau *port[], size_t taille) {
+   trierBateaux(port, taille);
    printf("%-*s ", SIZE, "Nom");
    printf("%*s ", SIZE, "Type");
    printf("%*s ", SIZE, "Taxe");
@@ -80,8 +92,24 @@ void afficherBateaux(Bateau *port[], size_t taille) {
    }
 }
 
-void afficherStatistiques(Bateau *port[]) {
+void afficherStatistiques(Bateau *port[], size_t taille) {
+   size_t count[TOTAL] = {0,0,0};
+   for (size_t i = 0; i <= taille; ++i) {
+      if (port[i] == NULL) continue;
+      ++count[port[i]->type];
+   }
+   /* unsigned taxesVoilier[count[VOILIER]];
+   unsigned taxesPeche[count[PECHE]];
+   unsigned taxesPlaisance[count[PLAISANCE]]; */
+   unsigned taxes[taille];
+   unsigned total[TOTAL] = {0, 0, 0};
+   size_t position[TOTAL] = {0, count[VOILIER], count[PECHE]};
 
+   for (size_t i = 0; i <= taille; ++i) {
+      if (port[i] == NULL) continue;
+      total[port[i]->type] += port[i]->taxe;
+      taxes[position[port[i]->type]++] = port[i]->taxe;
+   }
 }
 
 Bateau *creerVoilier(char *nomBateau, uint16_t surfaceVoilureM2) {
@@ -89,6 +117,8 @@ Bateau *creerVoilier(char *nomBateau, uint16_t surfaceVoilureM2) {
    temp->nomBateau = nomBateau;
    temp->type = VOILIER;
    temp->surfaceVoilureM2 = surfaceVoilureM2;
+   temp->taxe = verifierTaxe(temp);
+   return temp;
 }
 
 Bateau *creerPeche(char *nomBateau, uint16_t puissanceMoteurCV, uint8_t maxTonnesDePoisson) {
@@ -97,6 +127,8 @@ Bateau *creerPeche(char *nomBateau, uint16_t puissanceMoteurCV, uint8_t maxTonne
    temp->type = PECHE;
    temp->puissanceMoteurCV = puissanceMoteurCV;
    temp->maxTonnesDePoisson = maxTonnesDePoisson;
+   temp->taxe = verifierTaxe(temp);
+   return temp;
 }
 
 Bateau *creerPlaisance(char *nomBateau, uint16_t puissanceMoteurCV, uint8_t longeurBateauM2, char *nomProprietaire) {
@@ -106,4 +138,6 @@ Bateau *creerPlaisance(char *nomBateau, uint16_t puissanceMoteurCV, uint8_t long
    temp->puissanceMoteurCV = puissanceMoteurCV;
    temp->longeurBateauM2 = longeurBateauM2;
    temp->nomProprietaire = nomProprietaire;
+   temp->taxe = verifierTaxe(temp);
+   return temp;
 }

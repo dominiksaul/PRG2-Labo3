@@ -16,12 +16,13 @@
 #define TAXE_SPEC_PLAISANCE_PARLONGEUR 15
 
 typedef enum {
-   VOILIER, PECHE, PLAISANCE
+   VOILIER, PECHE, PLAISANCE, TOTAL
 } BateauType;
 
 typedef struct {
    char* nomBateau;
    BateauType type;
+   unsigned taxe;
    union {
       struct {
          uint16_t surfaceVoilureM2;
@@ -48,7 +49,7 @@ void afficherBateau(Bateau* bateau);
 // Fonction pour afficher les bateaux
 void afficherBateaux(Bateau* port[], size_t taille);
 // Fonction pour afficher les statistiques
-void afficherStatistiques(Bateau* port[]);
+void afficherStatistiques(Bateau* port[], size_t taille);
 
 // Fonctions pour créer les bateaux
 Bateau* creerVoilier(char* nomBateau, uint16_t surfaceVoilureM2);
