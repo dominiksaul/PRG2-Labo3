@@ -31,53 +31,62 @@
 
 #define ESPACE_AFFICHAGE 20
 
-typedef enum {VOILIER, MOTEUR} Categorie;
-typedef enum {PECHE, PLAISANCE} SousCategorie;
-typedef char* Nom;
+typedef enum {
+   VOILIER, MOTEUR
+} Categorie;
+typedef enum {
+   PECHE, PLAISANCE
+} SousCategorie;
+typedef char *Nom;
 
 typedef struct {
-    uint8_t tonnesPoisson;
+   uint8_t tonnesPoisson;
 } Peche;
 
 typedef struct {
-    const Nom nomProprietaire;
-    uint8_t longeur; //[m]
+   const Nom nomProprietaire;
+   uint8_t longeur; //[m]
 } Plaisance;
 
 typedef union {
-    Peche peche;
-    Plaisance plaisance;
+   Peche peche;
+   Plaisance plaisance;
 } SpecificiteSousCategorie;
 
-typedef struct{
-    uint16_t puissance; //[CV]
-    SousCategorie sousCategorie;
-    SpecificiteSousCategorie specificiteSousCategorie;
+typedef struct {
+   uint16_t puissance; //[CV]
+   SousCategorie sousCategorie;
+   SpecificiteSousCategorie specificiteSousCategorie;
 } Moteur;
 
-typedef struct{
-    uint16_t surface; //[m^2]
+typedef struct {
+   uint16_t surface; //[m^2]
 } Voilier;
 
 typedef union {
-    Voilier voilier;
-    Moteur moteur;
+   Voilier voilier;
+   Moteur moteur;
 } SpecificiteCategorie;
 
-typedef struct{
-    const Nom nom;
-    Categorie categorie;
-    SpecificiteCategorie specificiteCategorie;
+typedef struct {
+   const Nom nom;
+   Categorie categorie;
+   SpecificiteCategorie specificiteCategorie;
 } Bateau;
 
 Bateau voilier(const Nom nom, uint16_t surface);
+
 Bateau peche(const Nom nom, uint16_t puissance, uint8_t tonnesPoisson);
+
 Bateau plaisance(const Nom nom, uint16_t puissance, const Nom nomProprietaire,
                  uint8_t longeur);
 
-double taxeAnnuelle(const Bateau* bateau);
-void afficherBateau(const Bateau* bateau);
+double taxeAnnuelle(const Bateau *bateau);
+
+void afficherBateau(const Bateau *bateau);
+
 void afficherBateaux(const Bateau bateaux[], const size_t n);
+
 void afficherStatistiques(const Bateau bateaux[], const size_t n);
 
 #endif //PRG2_LABO3_BATEAU_H
