@@ -1,6 +1,15 @@
-//
-// Created by diana.laurenti on 27.05.2023.
-//
+/*
+ -----------------------------------------------------------------------------------
+ Nom du fichier : main.c
+ Auteur(s)      : Diana Laurenti, Glodi Domingos, Dominik Saul
+ Date creation  : 25.05.2023
+ Description    : Programme pour tester l'implementation de bateau.h
+ Librairie permettant la gestion des bateaux dans un port
+ Remarque(s)    : -
+ Compilateur    : build-essential gcc 11.3.0
+ -----------------------------------------------------------------------------------
+*/
+
 #include "bateau.h"
 
 int main() {

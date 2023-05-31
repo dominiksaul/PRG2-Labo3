@@ -1,6 +1,14 @@
-//
-// Created by diana.laurenti on 27.05.2023.
-//
+/*
+ -----------------------------------------------------------------------------------
+ Nom du fichier : bateau.h
+ Auteur(s)      : Diana Laurenti, Glodi Domingos, Dominik Saul
+ Date creation  : 25.05.2023
+ Description    : Librairie permettant la gestion des bateaux dans un port
+ Remarque(s)    : -
+ Compilateur    : build-essential gcc 11.3.0
+ -----------------------------------------------------------------------------------
+*/
+
 #ifndef PRG2_LABO3_BATEAU_H
 #define PRG2_LABO3_BATEAU_H
 
