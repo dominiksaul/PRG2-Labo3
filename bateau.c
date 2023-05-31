@@ -225,10 +225,11 @@ void afficherStatistiques(const Bateau bateaux[], const size_t n){
             *(taxesPlaisances + indexPlaisances) = taxeAnnuelle(bateaux + i);
             ++indexPlaisances;
         }
-        afficherStatistiquesParType("voiliers", taxesVoiliers, numVoiliers);
-        afficherStatistiquesParType("bateaux de peche", taxesPeches, numVoiliers);
-        afficherStatistiquesParType("bateau de plaisance", taxesPlaisances, numVoiliers);
     }
+    afficherStatistiquesParType("voiliers", taxesVoiliers, numVoiliers);
+    afficherStatistiquesParType("bateaux de peche", taxesPeches, numVoiliers);
+    afficherStatistiquesParType("bateau de plaisance", taxesPlaisances, numVoiliers);
+
     free(taxesVoiliers);
     free(taxesPeches);
     free(taxesPlaisances);
