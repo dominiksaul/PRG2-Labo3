@@ -81,16 +81,15 @@ double taxeSpecifique(const Bateau *bateau) {
       case MOTEUR : {
          switch (bateau->specificiteCategorie.moteur.sousCategorie) {
             case PECHE :
-               taxe = bateau->specificiteCategorie.moteur
-                         .specificiteSousCategorie.peche.tonnesPoisson <
-                      LIMIT_TONNAGE_PECHE ?
-                      DEFAULT_TAXE_PECHE : SURPLUS_TAXE_PECHE;
+               taxe =
+                  bateau->specificiteCategorie.moteur.specificiteSousCategorie.peche.tonnesPoisson < LIMIT_TONNAGE_PECHE
+                  ? DEFAULT_TAXE_PECHE : SURPLUS_TAXE_PECHE;
                break;
             case PLAISANCE:
-               taxe = bateau->specificiteCategorie.moteur.puissance
-                      < LIMIT_PUISSANCE_PLAISANCE ? DEFAULT_TAXE_PLAISANCE :
-                      bateau->specificiteCategorie.moteur.specificiteSousCategorie
-                         .plaisance.longeur * SURPLUS_TAXE_PLAISANCE;
+               taxe =
+                  bateau->specificiteCategorie.moteur.puissance < LIMIT_PUISSANCE_PLAISANCE
+                  ? DEFAULT_TAXE_PLAISANCE
+                  : bateau->specificiteCategorie.moteur.specificiteSousCategorie.plaisance.longeur * SURPLUS_TAXE_PLAISANCE;
                break;
          }
       }
@@ -109,19 +108,12 @@ void afficherBateau(const Bateau *bateau) {
       afficher_mesure("Surface", bateau->specificiteCategorie.voilier.surface, "m\u00b2");
    } else {
       afficher_mesure("Puissance", bateau->specificiteCategorie.moteur.puissance, "CV");
-      afficher_texte("Sous-categorie", SOUS_CATEGORIES[bateau->
-         specificiteCategorie.moteur.sousCategorie]);
+      afficher_texte("Sous-categorie", SOUS_CATEGORIES[bateau->specificiteCategorie.moteur.sousCategorie]);
       if (bateau->specificiteCategorie.moteur.sousCategorie == PECHE)
-         afficher_mesure("Tonnes de poisson",
-                         bateau->specificiteCategorie.moteur.specificiteSousCategorie.peche.tonnesPoisson,
-                         "");
+         afficher_mesure("Tonnes de poisson", bateau->specificiteCategorie.moteur.specificiteSousCategorie.peche.tonnesPoisson, "");
       else {
-         afficher_texte("Nom du proprietaire",
-                        bateau->specificiteCategorie.moteur.specificiteSousCategorie
-                           .plaisance.nomProprietaire);
-         afficher_mesure("Longeur",
-                         bateau->specificiteCategorie.moteur.specificiteSousCategorie.plaisance.longeur,
-                         "m");
+         afficher_texte("Nom du proprietaire", bateau->specificiteCategorie.moteur.specificiteSousCategorie.plaisance.nomProprietaire);
+         afficher_mesure("Longeur", bateau->specificiteCategorie.moteur.specificiteSousCategorie.plaisance.longeur, "m");
       }
    }
    printf("%-*s: %.2f€\n", ESPACE_AFFICHAGE, "Taxe annuelle due", taxeAnnuelle(bateau));
@@ -148,8 +140,7 @@ void afficherBateaux(const Bateau bateaux[], const size_t n) {
    }
 }
 
-void compterBateauxParType(const Bateau bateaux[], const size_t n, size_t *numVoiliers,
-                           size_t *numPeches, size_t *numPlaisances) {
+void compterBateauxParType(const Bateau bateaux[], const size_t n, size_t *numVoiliers, size_t *numPeches, size_t *numPlaisances) {
    for (size_t i = 0; i < n; ++i) {
       if ((bateaux + i)->categorie == VOILIER)
          ++*numVoiliers;
@@ -188,8 +179,7 @@ double calculerEcartType(const double taxes[], const size_t n) {
    return sqrt(ecart);
 }
 
-void afficherStatistiquesParType(const char *type, const double *taxes, const
-size_t numBateaux) {
+void afficherStatistiquesParType(const char *type, const double *taxes, const size_t numBateaux) {
    double somme = calculerSomme(taxes, numBateaux);
    printf("Taxes annuelles %s :\n", type);
    afficher_stats("Somme", somme);
@@ -204,8 +194,7 @@ void afficherStatistiques(const Bateau bateaux[], const size_t n) {
    size_t numPeches = 0;
    size_t numPlaisances = 0;
 
-   compterBateauxParType(bateaux, n, &numVoiliers, &numPeches,
-                         &numPlaisances);
+   compterBateauxParType(bateaux, n, &numVoiliers, &numPeches, &numPlaisances);
    ordonnerBateaux(bateaux, n);
 
    // creer des tableaux pour stocker les taxes annuelles par type de bateau, pour

@@ -78,8 +78,7 @@ Bateau voilier(const Nom nom, uint16_t surface);
 
 Bateau peche(const Nom nom, uint16_t puissance, uint8_t tonnesPoisson);
 
-Bateau plaisance(const Nom nom, uint16_t puissance, const Nom nomProprietaire,
-                 uint8_t longeur);
+Bateau plaisance(const Nom nom, uint16_t puissance, const Nom nomProprietaire, uint8_t longeur);
 
 double taxeAnnuelle(const Bateau *bateau);
 
