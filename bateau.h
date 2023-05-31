@@ -12,6 +12,7 @@
 #ifndef PRG2_LABO3_BATEAU_H
 #define PRG2_LABO3_BATEAU_H
 
+#include <stdio.h>
 #include <inttypes.h>
 
 #define TAXE_BASE_VOILIER 50
