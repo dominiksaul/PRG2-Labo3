@@ -1,60 +1,75 @@
-#ifndef BATEAU_H
-#define BATEAU_H
+//
+// Created by diana.laurenti on 27.05.2023.
+//
+#ifndef PRG2_LABO3_BATEAU_H
+#define PRG2_LABO3_BATEAU_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include <inttypes.h>
 
 #define TAXE_BASE_VOILIER 50
-#define TAXE_BASE_MOTEUR 100
-#define TAXE_SPEC_VOILIER 25
-#define TAXE_SPEC_VOILIER_LIMITSURFACE 200
-#define TAXE_SPEC_PECHE 100
-#define TAXE_SPEC_PECHE_LIMITTONNES 20
-#define TAXE_SPEC_PLAISANCE 50
-#define TAXE_SPEC_PLAISANCE_LIMITPUISSANCE 100
-#define TAXE_SPEC_PLAISANCE_PARLONGEUR 15
+#define TAX_BASE_MOTEUR 100
 
-typedef enum {
-   VOILIER, PECHE, PLAISANCE, TOTAL
-} BateauType;
+#define DEFAULT_TAXE_VOILIER 0
+#define LIMIT_SURFACE_VOILIER 200
+#define SURPLUS_TAXE_VOILIER 25
+
+#define DEFAULT_TAXE_PECHE 0
+#define LIMIT_TONNAGE_PECHE 20
+#define SURPLUS_TAXE_PECHE 100
+
+#define DEFAULT_TAXE_PLAISANCE 50
+#define LIMIT_PUISSANCE_PLAISANCE 50
+#define SURPLUS_TAXE_PLAISANCE 15 //à multiplier par longeur
+
+#define ESPACE_AFFICHAGE 20
+
+typedef enum {VOILIER, MOTEUR} Categorie;
+typedef enum {PECHE, PLAISANCE} SousCategorie;
+typedef char* Nom;
 
 typedef struct {
-   char* nomBateau;
-   BateauType type;
-   unsigned taxe;
-   union {
-      struct {
-         uint16_t surfaceVoilureM2;
-      };
-      struct {
-         uint16_t puissanceMoteurCV;
-         union {
-            struct {
-               uint8_t maxTonnesDePoisson;
-            };
-            struct {
-               uint8_t longeurBateauM2;
-               char* nomProprietaire;
-            };
-         };
-      };
-   };
+    uint8_t tonnesPoisson;
+} Peche;
+
+typedef struct {
+    const Nom nomProprietaire;
+    uint8_t longeur; //[m]
+} Plaisance;
+
+typedef union {
+    Peche peche;
+    Plaisance plaisance;
+} SpecificiteSousCategorie;
+
+typedef struct{
+    uint16_t puissance; //[CV]
+    SousCategorie sousCategorie;
+    SpecificiteSousCategorie specificiteSousCategorie;
+} Moteur;
+
+typedef struct{
+    uint16_t surface; //[m^2]
+} Voilier;
+
+typedef union {
+    Voilier voilier;
+    Moteur moteur;
+} SpecificiteCategorie;
+
+typedef struct{
+    const Nom nom;
+    Categorie categorie;
+    SpecificiteCategorie specificiteCategorie;
 } Bateau;
 
-// Fonction pour vérifier la taxe d'un bateau
-unsigned verifierTaxe(Bateau* bateau);
-// Fonction pour afficher un seul bateau
-void afficherBateau(Bateau* bateau);
-// Fonction pour afficher les bateaux
-void afficherBateaux(Bateau* port[], size_t taille);
-// Fonction pour afficher les statistiques
-void afficherStatistiques(Bateau* port[], size_t taille);
+Bateau voilier(const Nom nom, uint16_t surface);
+Bateau peche(const Nom nom, uint16_t puissance, uint8_t tonnesPoisson);
+Bateau plaisance(const Nom nom, uint16_t puissance, const Nom nomProprietaire,
+                 uint8_t longeur);
 
-// Fonctions pour créer les bateaux
-Bateau* creerVoilier(char* nomBateau, uint16_t surfaceVoilureM2);
-Bateau* creerPeche(char* nomBateau, uint16_t puissanceMoteurCV, uint8_t maxTonnesDePoisson);
-Bateau* creerPlaisance(char* nomBateau, uint16_t puissanceMoteurCV, uint8_t longeurBateauM2, char* nomProprietaire);
+double taxeAnnuelle(const Bateau* bateau);
+void afficherBateau(const Bateau* bateau);
+void afficherBateaux(const Bateau bateaux[], const size_t n);
+void afficherStatistiques(const Bateau bateaux[], const size_t n);
 
-
-#endif
+#endif //PRG2_LABO3_BATEAU_H

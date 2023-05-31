@@ -1,19 +1,19 @@
+//
+// Created by diana.laurenti on 27.05.2023.
+//
 #include "bateau.h"
 
 int main() {
-   Bateau* port[] = {
-      creerVoilier("Aterix", 40),
-      creerVoilier("Bart", 250),
-      creerPeche("Maggie", 15, 20),
-      creerPeche("Obelix", 56, 45),
-      creerPlaisance("Homer", 50, 30, "Marge"),
-      creerPlaisance("Apu", 120, 50, "Femme Apu")
-   };
-   size_t taille = sizeof(port) / sizeof(Bateau*);
+    Bateau b1 = voilier("Carlo", 250);
+    Bateau b2 = peche("Gigi",100,50);
+    Bateau b3 = plaisance("Mary", 100, "Mary Stuard", 60);
+    Bateau b4 = voilier("Marina", 80);
+    Bateau b5 = peche("Seagull",40,15);
+    Bateau b6 = plaisance("Thalasso", 80, "Ariel Marinovic", 60);
 
-   afficherBateaux(port, taille);
+    Bateau bateaux[] = {b1,b2,b3, b4, b5, b6};
+    afficherBateaux(bateaux,6);
+    afficherStatistiques(bateaux, 6);
 
-   //afficherStatistiques(port, taille);
-
-   return 0;
+    return 0;
 }
