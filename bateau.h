@@ -38,7 +38,8 @@ typedef enum {
 typedef enum {
    PECHE, PLAISANCE
 } SousCategorie;
-typedef char *Nom;
+
+typedef const char *Nom;
 
 typedef struct {
    uint8_t tonnesPoisson;
@@ -75,18 +76,18 @@ typedef struct {
    SpecificiteCategorie specificiteCategorie;
 } Bateau;
 
-Bateau voilier(const Nom nom, uint16_t surface);
+Bateau voilier(Nom nom, uint16_t surface);
 
-Bateau peche(const Nom nom, uint16_t puissance, uint8_t tonnesPoisson);
+Bateau peche(Nom nom, uint16_t puissance, uint8_t tonnesPoisson);
 
-Bateau plaisance(const Nom nom, uint16_t puissance, const Nom nomProprietaire, uint8_t longeur);
+Bateau plaisance(Nom nom, uint16_t puissance, Nom nomProprietaire, uint8_t longeur);
 
 double taxeAnnuelle(const Bateau *bateau);
 
 void afficherBateau(const Bateau *bateau);
 
-void afficherBateaux(const Bateau bateaux[], const size_t n);
+void afficherBateaux(const Bateau bateaux[], size_t n);
 
-void afficherStatistiques(const Bateau bateaux[], const size_t n);
+void afficherStatistiques(const Bateau bateaux[], size_t n);
 
 #endif //PRG2_LABO3_BATEAU_H
