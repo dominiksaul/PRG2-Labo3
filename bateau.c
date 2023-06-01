@@ -3,7 +3,8 @@
  Nom du fichier : bateau.c
  Auteur(s)      : Diana Laurenti, Glodi Domingos, Dominik Saul
  Date creation  : 25.05.2023
- Description    : Librairie permettant la gestion des bateaux dans un port
+ Description    : Implementation de la librairie permettant la gestion des bateaux
+ dans un port
  Remarque(s)    : -
  Compilateur    : build-essential gcc 11.3.0
  -----------------------------------------------------------------------------------
@@ -12,19 +13,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <assert.h>
 
 #include "bateau.h"
 
 #define FORMAT(SPECIFIER) "%-*s: " SPECIFIER "\n"
-#define afficher_texte(categorie, valeur) do {             \
-printf(FORMAT("%s"), ESPACE_AFFICHAGE, categorie, valeur); \
+#define afficher_texte(categorie, valeur) do {                       \
+printf(FORMAT("%s"), ESPACE_AFFICHAGE, categorie, valeur);           \
 } while (0)
-#define afficher_mesure(categorie, valeur, unite) do {             \
-printf(FORMAT("%d%s"), ESPACE_AFFICHAGE, categorie, valeur, unite); \
+#define afficher_mesure(categorie, valeur, unite) do {               \
+printf(FORMAT("%d%s"), ESPACE_AFFICHAGE, categorie, valeur, unite);  \
 } while (0)
-#define afficher_stats(categorie, valeur) do {             \
-printf(FORMAT("%g"), ESPACE_AFFICHAGE, categorie, valeur); \
+#define afficher_stats(categorie, valeur) do {                       \
+printf(FORMAT("%g"), ESPACE_AFFICHAGE, categorie, valeur);           \
 } while (0)
 
 const char *CATEGORIES[] = {"Voilier", "Moteur"};
@@ -98,10 +98,12 @@ double taxeSpecifique(const Bateau *bateau) {
 }
 
 double taxeAnnuelle(const Bateau *bateau) {
+   if (!bateau) return 0.0;
    return taxeBase(bateau->categorie) + taxeSpecifique(bateau);
 }
 
 void afficherBateau(const Bateau *bateau) {
+   if (!bateau) return;
    afficher_texte("Nom", bateau->nom);
    afficher_texte("Categorie", CATEGORIES[bateau->categorie]);
    if (bateau->categorie == VOILIER) {
@@ -121,6 +123,7 @@ void afficherBateau(const Bateau *bateau) {
 }
 
 int comparerBateaux(const void *bGauche, const void *bDroite) {
+   if (!(bGauche && bDroite)) return 0;
    if (taxeAnnuelle(bGauche) < taxeAnnuelle(bDroite))
       return 1;
    if (taxeAnnuelle(bGauche) > taxeAnnuelle(bDroite))
@@ -129,7 +132,8 @@ int comparerBateaux(const void *bGauche, const void *bDroite) {
 }
 
 void ordonnerBateaux(const Bateau bateaux[], const size_t n) {
-   qsort((void *) bateaux, n, sizeof(Bateau), comparerBateaux);
+   qsort((void *) bateaux, n,
+         sizeof(Bateau), comparerBateaux);
 }
 
 void afficherBateaux(const Bateau bateaux[], const size_t n) {
@@ -140,7 +144,9 @@ void afficherBateaux(const Bateau bateaux[], const size_t n) {
    }
 }
 
-void compterBateauxParType(const Bateau bateaux[], const size_t n, size_t *numVoiliers, size_t *numPeches, size_t *numPlaisances) {
+void compterBateauxParType(const Bateau bateaux[], const size_t n,
+                           size_t *numVoiliers, size_t *numPeches,
+                           size_t *numPlaisances) {
    for (size_t i = 0; i < n; ++i) {
       if ((bateaux + i)->categorie == VOILIER)
          ++*numVoiliers;
@@ -160,7 +166,7 @@ double calculerSomme(const double taxes[], const size_t n) {
 }
 
 double calculerMoyenne(const double somme, const size_t n) {
-   assert(n > 1);
+   if (n < 1) return 0.0;
    return somme / (double) n;
 }
 
@@ -169,7 +175,7 @@ double calculerMediane(const double taxes[], const size_t n) {
 }
 
 double calculerEcartType(const double taxes[], const size_t n) {
-   assert(n > 1);
+   if (n < 1) return 0.0;
    double sommeDeCarres = 0;
    double moyenne = calculerMoyenne(calculerSomme(taxes, n), n);
    for (size_t i = 0; i < n; ++i) {
@@ -179,7 +185,8 @@ double calculerEcartType(const double taxes[], const size_t n) {
    return sqrt(ecart);
 }
 
-void afficherStatistiquesParType(const char *type, const double *taxes, const size_t numBateaux) {
+void afficherStatistiquesParType(const char *type, const double *taxes,
+                                 const size_t numBateaux) {
    double somme = calculerSomme(taxes, numBateaux);
    printf("Taxes annuelles %s :\n", type);
    afficher_stats("Somme", somme);
@@ -200,11 +207,10 @@ void afficherStatistiques(const Bateau bateaux[], const size_t n) {
    // creer des tableaux pour stocker les taxes annuelles par type de bateau, pour
    // effectuer les calcules après
    double *taxesVoiliers = (double *) malloc(numVoiliers * sizeof(double));
-   assert(taxesVoiliers != NULL);
    double *taxesPeches = (double *) malloc(numPeches * sizeof(double));
-   assert(taxesPeches != NULL);
    double *taxesPlaisances = (double *) malloc(numPlaisances * sizeof(double));
-   assert(taxesPlaisances != NULL);
+
+   if ( !(taxesPlaisances && taxesVoiliers && taxesPeches)) return;
 
    size_t indexVoiliers = 0;
    size_t indexPeches = 0;
